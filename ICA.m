@@ -1,12 +1,12 @@
 clear; close all; clc;
 
-[s1, Fs] = audioread('女でかい.wav'); % 信号源1
-s2 = audioread('男でかい.wav'); % 信号源2
+[s1, Fs] = audioread('femaleBig.wav'); % 信号源1
+s2 = audioread('maleBig.wav'); % 信号源2
 x = [s1 s2].'; % 多次元観測信号
 
 time = 10; % 観測時間
 T = Fs*time; % サンプリング周波数時間
-step = 0.5; % ステップサイズ
+step = 1; % ステップサイズ
 L = 30; % 反復回数
 sigma = 1; % 分布のスケールに関するパラメータ
 
