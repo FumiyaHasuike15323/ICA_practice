@@ -5,20 +5,24 @@ s2 = audioread('男でかい.wav'); % 信号源2
 x = [s1 s2].'; % 多次元観測信号
 
 time = 10; % 観測時間
-myu = 10; % ステップサイズ
+T = Fs*time; % サンプリング周波数時間
+step = 0.5; % ステップサイズ
 L = 30; % 反復回数
-sigma = 1;
+sigma = 1; % 分布のスケールに関するパラメータ
 
 W = eye(2); % 分離行列を単位行列で初期化
 I = eye(2); % 単位行列
 
-for l = 0:1:L-1 % 自然勾配法によって分離行列Wを推定
+for l = 0:1:30 % 自然勾配法によって分離行列Wを推定
 
         y = W*x;
-        fai = y./(sigma*abs(y)); % スコア関数(ラプラス分布)
-        R = fai*y.';
-        E = R/time;
-        W=W-myu*(E-I)*W;
+        p = y./(sigma*abs(y)); % スコア関数(ラプラス分布)
+
+        p = fillmissing(p,'constant',0); % NaNを0に
+
+        R = p*y.';
+        E = R/T;
+        W = W-step*(E-I)*W;
 
 end
 
